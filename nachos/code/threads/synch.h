@@ -44,8 +44,8 @@ public:
         return name;   // debugging assist
     }
 
-    void P();	 // these are the only operations on a semaphore
-    void V();	 // they are both *atomic*
+    void P();	      // these are the only operations on a semaphore
+    void V();	      // they are both *atomic*
 
 private:
     char* name;        // useful for debugging
@@ -76,12 +76,12 @@ public:
     void Acquire(); // these are the only operations on a lock
     void Release(); // they are both *atomic*
 
-    bool isHeldByCurrentThread(){return (owner == currentThread)};	// true if the current thread
-    // holds this lock.  Useful for
-    // checking in Release, and in
-    // Condition variable ops below.
+    bool isHeldByCurrentThread();	// true if the current thread
+                                    // holds this lock.  Useful for
+                                    // checking in Release, and in
+                                    // Condition variable ops below.
 
-private
+private:
     char* name;				// for debugging
     // plus some other stuff you'll need to define
 
@@ -126,19 +126,19 @@ private
 class Condition {
 public:
     Condition(char* debugName);		// initialize condition to
-    // "no one waiting"
-    ~Condition();			// deallocate the condition
+                                    // "no one waiting"
+    ~Condition();   // deallocate the condition
     char* getName() {
         return (name);
     }
 
     void Wait(Lock *conditionLock); 	// these are the 3 operations on
-    // condition variables; releasing the
-    // lock and going to sleep are
-    // *atomic* in Wait()
+                                        // condition variables; releasing the
+                                        // lock and going to sleep are
+                                        // *atomic* in Wait()
     void Signal(Lock *conditionLock);   // conditionLock must be held by
     void Broadcast(Lock *conditionLock);// the currentThread for all of
-    // these operations
+                                        // these operations
 
 private:
     char* name;

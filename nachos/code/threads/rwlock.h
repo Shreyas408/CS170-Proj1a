@@ -7,18 +7,24 @@
 
 class RWLock{
 private:
-#ifdef RWLOCK
-	//pthread_cond_t readCV;
-	//pthread_cond_t writeCV;
-	//Semaphore readSem("Read", 1);
-	//Semaphore writeSem("Write", 1);
-	//int AW;
-	//int WW;
-	//int AR;
-	//int WR;
-#endif
-	Semaphore lock("Lock", 1); 
-
+	#ifndef P1_RWLOCK
+	#ifdef P1_SEMAPHORE
+	//Task 1 code (using semaphore in place of mutex)
+	Semaphore* sem;
+	#else
+	//Task 2 code (using NACHOS Lock)
+	Lock* lock;
+	#endif
+	#else
+	//Task 3 code (full rwlock)
+	Condition* readCV;
+	Condition* writeCV;
+	Lock* lock;
+	int AW;
+	int WW;
+	int AR;
+	int WR;
+	#endif
 public:
 		RWLock();
     	~RWLock();
