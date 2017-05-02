@@ -102,35 +102,46 @@ Semaphore::V()
 // the test case in the network assignment won't work!
 Lock::Lock(char* debugName) {
     name = debugName;
-    //locked = false; 
-    sem(debugName, 1);
+    locked = false; 
 }
 
-Lock::~Lock() {}
+Lock::~Lock() {
+    delete queue 
+}
 
 void Lock::Acquire() {
-    sem->P();
     // IntStatus oldLevel = interrupt->SetLevel(IntOff);   // disable interrupts
 
-    // while (locked) {            // semaphore not available
-    //     //queue->Append((void *)currentThread);   // so go to sleep
+    // while (value == 0) {            // semaphore not available
+    //     queue->Append((void *)currentThread);   // so go to sleep
     //     currentThread->Sleep();
     // }
-    // locked = true;                    // semaphore available,
+    // value--;                    // semaphore available,
     // // consume its value
 
-    //(void) interrupt->SetLevel(oldLevel);   // re-enable interrupts
-}
-void Lock::Release() {
-    sem->V();
-    // Thread *thread;
-    // IntStatus oldLevel = interrupt->SetLevel(IntOff);
+    // (void) interrupt->SetLevel(oldLevel);   // re-enable interrupts
+    IntStatus oldLevel = interrupt->SetLevel(IntOff);   // disable interrupts
 
-    // thread = (Thread *)queue->Remove();
-    // if (thread != NULL)    // make thread ready, consuming the V immediately
-    //     scheduler->ReadyToRun(thread);
-    // locked = false;
-    // (void) interrupt->SetLevel(oldLevel);
+    while (locked) {            // semaphore not available
+         queue->Append((void *)currentThread);   // so go to sleep
+         currentThread->Sleep();
+    }
+    locked = true;                    // lock available, so set it to locked
+    owner = currentThread;
+
+    (void) interrupt->SetLevel(oldLevel);   // re-enable interrupts
+}
+
+void Lock::Release() {
+    Thread *thread;
+    IntStatus oldLevel = interrupt->SetLevel(IntOff);
+
+    thread = (Thread *)queue->Remove();
+    if (thread != NULL)    // make thread ready, consuming the V immediately
+        scheduler->ReadyToRun(thread);
+    locked = false;
+    
+    (void) interrupt->SetLevel(oldLevel);
 }
 
 Condition::Condition(char* debugName) { }
