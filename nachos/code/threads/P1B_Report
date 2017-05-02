@@ -1,0 +1,45 @@
+Group Members: Thien Hoang, Angela Yung, Shreyas Radhakrishna
+
+WorkLoad:
+	_ Thien Hoang: 
+		+ Implement most of the rwlock.h and rwlock.cc files
+		+ Set up the NACHOS environment.
+	_ Angela Yung: 
+		+ Implement most of synch.cc file.
+		+ Fix the put bug in the orignal hashchain.cc code leading to passing the last test case.
+	_ Shreyas Radhakrishna: 
+		+ Implement most of synch.cc file
+		+ Set Up the Git repo and the NACHOS environment.
+	
+	**DISCLAIMER**: The entire project is a cumulative effort. So a list of "tasks" that each member does will inevitably
+	fail to account for the many hours that each member put into the projects debugging, brainstorming, gathering advice
+	from the teaching staff, and pair programming.
+
+The Design of the three tasks: ( TO DO )
+	
+
+To compile the code, just call go into the threads subdirectory and call make all. In order to run the tests for semaphore lock,
+run ./nachos_sem. In order to run the tests for nachos lock, run ./nachos_lock. In order to run the tests for read-write lock,
+run ./nachos_rw.
+
+The files modified/created:
+	_ rwlock.h: header file for the bucket lock of the concurent hash table
+	_ rwlock.cc: the 3 implementations if the bucket lock of the concurent hash table
+		+ Semaphore lock: Initial value set to 1. Act like a mutex lock
+		+ NACHOS lock: Lock the bucket for each access regardless of read or write
+		+ Read-Write lock: 2 Condition Varaible (readCV and write CV) and 1 Lock. Allow for multiple readers access and
+		  single writer access.
+	_ synch.cc: the implementation of 3 different synchronization primitives:
+		+ Semaphore: Allow a certain number n of threads accessing a a shared resources.
+		+ Lock: Allow only 1 thread to access a shared resources.
+		+ Condition: A signaling system that could couple with a Lock to signal certain processes whether a resource is ready.
+
+Work Completed:
+	_ Implementing Semaphore
+	_ Implementing Lock
+	_ Implementing Condition Variable
+	_ Utilizing the above three to make a Thread-safe HashMap.
+
+Work In Progress: N/A
+
+Work To Do: N/A
