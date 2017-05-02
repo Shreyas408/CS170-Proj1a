@@ -1,6 +1,6 @@
 /**
  * Code is based on
- *http://www.algolist.net/Data_structures/Hash_table/Chaining
+ tp://www.algolist.net/Data_structures/Hash_table/Chaining
  *
  **/
 #include<semaphore.h>

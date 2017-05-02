@@ -175,7 +175,7 @@ HashMap::remove(int key) { //TODO: make this function threadsafe
 void
 HashMap::increment(int key, int value) { //TODO: make this function threadsafe
   START_WRITE();
-  _put(key,_get(key)+value);
+  _put(key,_get(key:q)+value);
   END_WRITE();
 }
 

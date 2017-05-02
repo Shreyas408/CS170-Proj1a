@@ -84,14 +84,9 @@ public:
 private:
     char* name;				// for debugging
     // plus some other stuff you'll need to define
-
-    Semaphore sem;
-    bool locked;
-
     int value;         // mutex value, should always be 0/1 or some other binary value
     List *queue;       // threads waiting to acquire the lock
     Thread *owner;     // thread that currently holds the lock
-
 };
 
 // The following class defines a "condition variable".  A condition
