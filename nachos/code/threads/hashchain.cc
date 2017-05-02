@@ -80,7 +80,13 @@ HashMap::put(int key, int value) {
                         entry->setNext(new LinkedHashEntry(key, value));
             }
       }
- 
+
+
+void
+HashMap::increment(int key, int value){
+  int old_val = this->get(key);
+  this->put(key, (old_val != -1) ? old_val + value : value);
+}
 
 void
 HashMap:: remove(int key) {
