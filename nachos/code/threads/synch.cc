@@ -100,10 +100,38 @@ Semaphore::V()
 // Dummy functions -- so we can compile our later assignments
 // Note -- without a correct implementation of Condition::Wait(),
 // the test case in the network assignment won't work!
-Lock::Lock(char* debugName) {}
+Lock::Lock(char* debugName) {
+    name = debugName;
+    //locked = false; 
+    sem(debugName, 1);
+}
+
 Lock::~Lock() {}
-void Lock::Acquire() {}
-void Lock::Release() {}
+
+void Lock::Acquire() {
+    sem->P();
+    // IntStatus oldLevel = interrupt->SetLevel(IntOff);   // disable interrupts
+
+    // while (locked) {            // semaphore not available
+    //     //queue->Append((void *)currentThread);   // so go to sleep
+    //     currentThread->Sleep();
+    // }
+    // locked = true;                    // semaphore available,
+    // // consume its value
+
+    //(void) interrupt->SetLevel(oldLevel);   // re-enable interrupts
+}
+void Lock::Release() {
+    sem->V();
+    // Thread *thread;
+    // IntStatus oldLevel = interrupt->SetLevel(IntOff);
+
+    // thread = (Thread *)queue->Remove();
+    // if (thread != NULL)    // make thread ready, consuming the V immediately
+    //     scheduler->ReadyToRun(thread);
+    // locked = false;
+    // (void) interrupt->SetLevel(oldLevel);
+}
 
 Condition::Condition(char* debugName) { }
 Condition::~Condition() { }
