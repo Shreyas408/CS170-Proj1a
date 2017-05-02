@@ -81,7 +81,7 @@ public:
     // checking in Release, and in
     // Condition variable ops below.
 
-private:
+private
     char* name;				// for debugging
     // plus some other stuff you'll need to define
 
