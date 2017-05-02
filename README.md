@@ -1,1 +1,5 @@
-# CS170-Proj1a
+# CS170-Proj1B
+
+## TO DO LIST:
+
+  *
