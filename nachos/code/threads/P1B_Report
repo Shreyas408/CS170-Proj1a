@@ -16,7 +16,13 @@ WorkLoad:
 	from the teaching staff, and pair programming.
 
 The Design of the three tasks: ( TO DO )
-	
+    - Task 1: successfully moved files from website to our csil computers and ran it, updating hashchain to include the increment function
+      and putting in semaphore code into rwlock.cc
+    - Task 2: implemented the locks using the same structure of the semaphore code, making sure that we use interrupts so that it is atomic
+    - Task 3: implemented the condition variable in thes ame structure as the semaphore and lock. ConditionLock parameter was used to check if current thread had
+      the lock. Wait designed to release the lock and go to sleep, assuming it is called when a condition is not met. Signal is designed to dequeue one thread and
+      wakes up that one thread, assuming current thread will release lock after the function call. Broadcast is designed like signal, but instead of dequeueing one
+      thread it dequeues the entire queue (to signal all other threads). 
 
 To compile the code, just call go into the threads subdirectory and call make all. In order to run the tests for semaphore lock,
 run ./nachos_sem. In order to run the tests for nachos lock, run ./nachos_lock. In order to run the tests for read-write lock,
