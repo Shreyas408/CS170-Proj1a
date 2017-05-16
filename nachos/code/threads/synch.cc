@@ -111,28 +111,31 @@ Lock::~Lock() {
 }
 
 void Lock::Acquire() {
-    IntStatus oldLevel = interrupt->SetLevel(IntOff);   // disable interrupts
-
-    while (locked) {                             // The resources are locked
-         queue->Append((void *)currentThread);   // so go to sleep
-         currentThread->Sleep();
+  IntStatus oldLevel = interrupt->SetLevel(IntOff);   // disable interrupts
+  if(!isHeldByCurrentThread())
+    {
+      while (locked) {                             // The resources are locked
+	queue->Append((void *)currentThread);   // so go to sleep
+	currentThread->Sleep();
+      }
+      locked = true;  // lock available, so set it to locked
+      owner = currentThread;
     }
-    locked = true;  // lock available, so set it to locked
-    owner = currentThread;
-
-    (void) interrupt->SetLevel(oldLevel);   // re-enable interrupts
+  (void) interrupt->SetLevel(oldLevel);   // re-enable interrupts
 }
 
 void Lock::Release() {
-    Thread *thread;
-    IntStatus oldLevel = interrupt->SetLevel(IntOff);
-
-    thread = (Thread *)queue->Remove();
-    if (thread != NULL)    // make thread ready, get the lock right away
-        scheduler->ReadyToRun(thread);
-    locked = false;     //Release lock
-    
-    (void) interrupt->SetLevel(oldLevel);
+  Thread *thread;
+  IntStatus oldLevel = interrupt->SetLevel(IntOff);
+  if(isHeldByCurrentThread())
+    {
+      thread = (Thread *)queue->Remove();
+      if (thread != NULL)    // make thread ready, get the lock right away
+	scheduler->ReadyToRun(thread);
+      locked = false;     //Release lock
+      owner = NULL;
+    }
+  (void) interrupt->SetLevel(oldLevel);
 }
 
 bool Lock::isHeldByCurrentThread() {
